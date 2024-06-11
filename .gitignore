@@ -1,0 +1,7 @@
+.cache/
+bin/
+compile_commands.json
+compiler-output-parser.depend
+compiler-output-parser.layout
+obj/
+
