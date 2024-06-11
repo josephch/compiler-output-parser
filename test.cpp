@@ -57,6 +57,24 @@ TEST(ErrorLine, Linker_error_lib_not_found)
     EXPECT_EQ(GetCompilerOutputLineInfo(testLine).type, CompilerOutputLineType::error);
 }
 
+TEST(WarningLine, General_warning)
+{
+    std::string testLine = "cc1: warning: command line option '-std=c++11' is valid for C++/ObjC++ but not for C";
+    EXPECT_EQ(GetCompilerOutputLineInfo(testLine).type, CompilerOutputLineType::warning);
+}
+
+TEST(NoteLine, General_note)
+{
+    std::string testLine = "<command-line>:0:0: note: this is the location of the previous definition";
+    EXPECT_EQ(GetCompilerOutputLineInfo(testLine).type, CompilerOutputLineType::info);
+}
+
+TEST(WarningLine, General_warning_2)
+{
+    std::string testLine = "<command-line>:0:0: warning: \"_TRACE_LEVEL\" redefined";
+    EXPECT_EQ(GetCompilerOutputLineInfo(testLine).type, CompilerOutputLineType::warning);
+}
+
 int main(int argc, char **argv)
 {
     testing::InitGoogleTest(&argc, argv);

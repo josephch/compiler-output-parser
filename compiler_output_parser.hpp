@@ -30,13 +30,13 @@ struct CompilerRegexInfo
     size_t messageIdx;
 };
 
-#define POPULATE_INFO(info, match, regexInfo)                                                                           \
-    {                                                                                                                   \
-        info.type = regexInfo.type;                                                                                     \
-        std::cout << "Matched : name : [" << regexInfo.name << "] type [" << static_cast<int>(regexInfo.type) << "]\n"; \
-        if (compilerRegexInfo.fileNameIdx) info.fileName = match.get<compilerRegexInfo.fileNameIdx>().to_string();      \
-        if (compilerRegexInfo.lineIdx) info.line = match.get<compilerRegexInfo.lineIdx>().to_string();                  \
-        if (compilerRegexInfo.messageIdx) info.message = match.get<compilerRegexInfo.messageIdx>().to_string();         \
+#define POPULATE_INFO(info, match, regexInfo)                                                                               \
+    {                                                                                                                       \
+        info.type = regexInfo.type;                                                                                         \
+        /*std::cout << "Matched : name : [" << regexInfo.name << "] type [" << static_cast<int>(regexInfo.type) << "]\n";*/ \
+        if (compilerRegexInfo.fileNameIdx) info.fileName = match.get<compilerRegexInfo.fileNameIdx>().to_string();          \
+        if (compilerRegexInfo.lineIdx) info.line = match.get<compilerRegexInfo.lineIdx>().to_string();                      \
+        if (compilerRegexInfo.messageIdx) info.message = match.get<compilerRegexInfo.messageIdx>().to_string();             \
     }
 
 inline CompilerOutputLineInfo GetCompilerOutputLineInfo(std::string_view line)
@@ -146,7 +146,7 @@ inline CompilerOutputLineInfo GetCompilerOutputLineInfo(std::string_view line)
         POPULATE_INFO(ret, m, compilerRegexInfo);
     }
     //<![CDATA[([Nn]ote:[[:blank:]].*)]]>
-    else if (auto m = ctre::match<"([Nn]ote:[[:blank:]].*)">(line))
+    else if (auto m = ctre::match<".{0,1023}([Nn]ote:[[:blank:]].*)">(line))
     {
         static constexpr CompilerRegexInfo compilerRegexInfo = {
             .name = "General note", .type = CompilerOutputLineType::info, .fileNameIdx = 0, .lineIdx = 0, .messageIdx = 1};
@@ -270,21 +270,21 @@ inline CompilerOutputLineInfo GetCompilerOutputLineInfo(std::string_view line)
         POPULATE_INFO(ret, m, compilerRegexInfo);
     }
     //<![CDATA[([Ee]rror:[[:blank:]].*)]]>
-    else if (auto m = ctre::match<"([Ee]rror:[[:blank:]].*)">(line))
+    else if (auto m = ctre::match<".{0,1023}([Ee]rror:[[:blank:]].*)">(line))
     {
         static constexpr CompilerRegexInfo compilerRegexInfo = {
             .name = "General error", .type = CompilerOutputLineType::error, .fileNameIdx = 0, .lineIdx = 0, .messageIdx = 1};
         POPULATE_INFO(ret, m, compilerRegexInfo);
     }
     //<![CDATA[([Ww]arning:[[:blank:]].*)]]>
-    else if (auto m = ctre::match<"([Ww]arning:[[:blank:]].*)">(line))
+    else if (auto m = ctre::match<".{0,1023}([Ww]arning:[[:blank:]].*)">(line))
     {
         static constexpr CompilerRegexInfo compilerRegexInfo = {
             .name = "General warning", .type = CompilerOutputLineType::warning, .fileNameIdx = 0, .lineIdx = 0, .messageIdx = 1};
         POPULATE_INFO(ret, m, compilerRegexInfo);
     }
     //<![CDATA[([Ii]nfo:[[:blank:]].*)\(auto-import\)]]>
-    else if (auto m = ctre::match<"([Ii]nfo:[[:blank:]].*)\\(auto-import\\)">(line))
+    else if (auto m = ctre::match<"(.{0,1023}[Ii]nfo:[[:blank:]].*)\\(auto-import\\)">(line))
     {
         static constexpr CompilerRegexInfo compilerRegexInfo = {
             .name = "Auto-import info", .type = CompilerOutputLineType::info, .fileNameIdx = 0, .lineIdx = 0, .messageIdx = 1};
@@ -303,7 +303,7 @@ inline CompilerOutputLineInfo GetCompilerOutputLineInfo(std::string_view line)
     else
     {
         ret.type = CompilerOutputLineType::normal;
-        std::cout << "Match failed!\n";
+        /*std::cout << "Match failed!\n";*/
     }
     return ret;
 }
