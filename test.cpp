@@ -75,6 +75,22 @@ TEST(WarningLine, General_warning_2)
     EXPECT_EQ(GetCompilerOutputLineInfo(testLine).type, CompilerOutputLineType::warning);
 }
 
+TEST(WarningLine, Preprocessor_warning)
+{
+    std::string testLine =
+        "/home/user123/codeblocks/codeblocks-dev/git/src/include/compiler.h:150:22: warning:   ‘wxString1 RegExStruct::token’ [-Wreorder]";
+    CompilerOutputLineInfo expected = {.type = CompilerOutputLineType::warning,
+                                       .fileName = "/home/user123/codeblocks/codeblocks-dev/git/src/include/compiler.h",
+                                       .line = "150",
+                                       .message = "warning:   ‘wxString1 RegExStruct::token’ [-Wreorder]"};
+    CompilerOutputLineInfo info = GetCompilerOutputLineInfo(testLine);
+    std::cout << " info.message : [" << info.message << "]\n";
+    EXPECT_EQ(info.type, expected.type);
+    EXPECT_EQ(info.fileName, expected.fileName);
+    EXPECT_EQ(info.line, expected.line);
+    EXPECT_EQ(info.message, expected.message);
+}
+
 int main(int argc, char **argv)
 {
     testing::InitGoogleTest(&argc, argv);
