@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="compile-time-regular-expressions/single-header/" />
 				</Compiler>
 			</Target>
 		</Build>
@@ -26,7 +27,6 @@
 			<Add option="`pkg-config --libs gtest`" />
 		</Linker>
 		<Unit filename="compiler_output_parser.hpp" />
-		<Unit filename="ctre.hpp" />
 		<Unit filename="test.cpp" />
 		<Extensions />
 	</Project>
