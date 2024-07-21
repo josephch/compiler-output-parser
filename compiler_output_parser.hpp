@@ -19,7 +19,6 @@
 #ifndef COMPILER_OUTPUT_PARSER_HPP_INCLUDED
 #define COMPILER_OUTPUT_PARSER_HPP_INCLUDED
 
-#include <iostream>
 #include "ctre.hpp"
 
 enum class CompilerOutputLineType
@@ -36,7 +35,6 @@ struct CompilerOutputLineInfo
     std::string fileName;
     std::string line;
     std::string message;
-    auto operator<=>(const CompilerOutputLineInfo&) const = default;
 };
 
 struct CompilerRegexInfo
