@@ -4,13 +4,13 @@
 	<Project>
 		<Option title="compiler-output-parser" />
 		<Option pch_mode="2" />
-		<Option compiler="gnu_gcc_compiler_13" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="gtest">
 				<Option output="bin/compiler-output-parser-unittest" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/" />
 				<Option type="1" />
-				<Option compiler="gnu_gcc_compiler_13" />
+				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="`pkg-config --cflags gtest`" />
@@ -23,7 +23,7 @@
 				<Option output="bin/log-parser" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/" />
 				<Option type="0" />
-				<Option compiler="gnu_gcc_compiler_13" />
+				<Option compiler="gcc" />
 			</Target>
 		</Build>
 		<Compiler>
